@@ -1,16 +1,14 @@
 import express from "express"
-import FileUpload from "express-fileupload"
 import cors from "cors"
+import UserRoute from "./routes/UserRoute.js"
 import db from "./config/Database.js"
 
 const app = express()
-
 app.use(cors())
 app.use(express.json())
-app.use(FileUpload())
 
 
-db.sync({force: true})
+db.sync()
     .then(() => {
         // seed.userSeed()
         // seed.categorySeed()
@@ -20,6 +18,16 @@ db.sync({force: true})
         console.error('database connection failed', err);
     })
 
-app.listen(4000, () => {
 
+// (async() => {
+//     await db.sync({force: true})
+// })
+
+
+// route user
+app.use(UserRoute)
+
+app.listen(4000, () => {
+    console.log("Server is running");
 })
+
