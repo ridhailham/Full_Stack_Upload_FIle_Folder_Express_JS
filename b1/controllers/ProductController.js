@@ -30,6 +30,9 @@ export const saveProduct = (req, res) => {
             massage: "no file uploaded"
         })
     }
+
+    const name = req.body.title
+    const file = req.body.files
 } 
 
 export const updateProduct = (req, res) => {

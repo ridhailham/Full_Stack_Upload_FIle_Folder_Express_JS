@@ -1,14 +1,18 @@
-import express from "express"
-import cors from "cors"
-import UserRoute from "./routes/UserRoute.js"
+import express from "express";
+import FileUpload from "express-fileupload";
+import cors from "cors";
+import ProductRoute from "./routes/ProductRoute.js";
 import db from "./config/Database.js"
 
-const app = express()
-app.use(cors())
-app.use(express.json())
+const app = express();
+
+app.use(cors());
+app.use(express.json());
+app.use(FileUpload());
+app.use(express.static("public"));
 
 
-db.sync()
+db.sync({force: true})
     .then(() => {
         // seed.userSeed()
         // seed.categorySeed()
@@ -18,16 +22,6 @@ db.sync()
         console.error('database connection failed', err);
     })
 
+app.use(ProductRoute);
 
-// (async() => {
-//     await db.sync({force: true})
-// })
-
-
-// route user
-app.use(UserRoute)
-
-app.listen(4000, () => {
-    console.log("Server is running");
-})
-
+app.listen(5000, ()=> console.log('Server Up and Running...'));
